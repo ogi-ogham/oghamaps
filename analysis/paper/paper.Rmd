@@ -49,9 +49,17 @@ ogha <- separate(ogham, latlon, c("lat", "lon"), ';')
 ogha$lat <- as.numeric(as.character(ogha$lat))
 ogha$lon <- as.numeric(as.character(ogha$lon))
 
-# create spatialpointsdataframe
-coordinates(ogham) <- ~lon+lat
 
+# create spatialpointsdataframe
+library(sp)
+
+# transformation into Easting and Northing for percolation
+coordinates(ogha) <- ~lon+lat
+proj4string(ogha) <- CRS("+proj=longlat + ellps=WGS84") # This sets the projection of the data, assuming that you are using the WGS84 ellipsoid (if you do not know for sure, it is a safe assumption)
+
+data <-spTransform(ogha,CRS="+proj=utm +zone=29 +datum=WGS84") # Use whatever UTM zone you need.
+
+ogha <- as.data.frame(coordinates(data)) # This converts the SpatialPoints object back into a data frame
 
 
 # load shape
@@ -63,12 +71,10 @@ gb_ie <- subset(bg, bg@data$ADMIN == 'United Kingdom' | bg@data$ADMIN == 'Irelan
 
 ie <- subset(bg, bg@data$ADMIN == 'Ireland')
 
-
-plot(gb)
 ```
 
 
-```{r simple plot}
+```{r density plot}
 
 library(ggplot2)
 
@@ -81,6 +87,26 @@ ggplot()+
   theme_classic()
 ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
+```
+
+```{r percolation}
+
+library("percopackage", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.6")
+
+ogg <- cbind(ogham$ciic, ogha)
+
+colnames(ogg) <- c("PlcIndex", "Easting", "Northing")
+
+percolate(data = ogg, distance_table = NULL,limit = 200, radius_unit = 1000, upper_radius = 50, lower_radius = 1, step_value = 10)
+
+#transformation of map to same PRJ
+gb_ie <- spTransform(gb_ie,CRS="+proj=utm +zone=29 +datum=WGS84") # Use whatever UTM zone you need.
+
+
+mapClusters(shape = gb_ie, map_name = "ogham stones in Ireland", source_file_name = "after MacAlister 1945", dpi = 100)
+
+
+plotClustFreq()
 ```
 
 

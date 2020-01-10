@@ -1,0 +1,112 @@
+---
+title: "Creating maps of ogham stones with R"
+author:
+  - Schmidt, Sophie
+  - Thiery, Florian
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+    bookdown::word_document2:
+      fig_caption: yes
+      reference_docx: "../templates/template.docx" # Insert path for the DOCX file
+bibliography: references.bib
+csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
+abstract: |
+  Text of abstract
+keywords: |
+  keyword 1; keyword 2; keyword 3
+highlights: |
+  These are the highlights. 
+---
+
+
+<!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
+
+```{r, setup, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  comment = "#>",
+  fig.path = "../figures/"
+)
+```
+
+# Introduction
+
+It is the aim of this package to use the data of the Ogi-Ogham project to create some maps and geostatistics with R.
+
+
+```{r}
+# load data
+ogham <- read.csv2("../data/raw_data/2020-01-10_townlandsxy.csv", sep = "\t")
+
+library(tidyr)
+
+ogha <- separate(ogham, latlon, c("lat", "lon"), ';')
+
+# lat lon were saved as characters, make them numbers again
+ogha$lat <- as.numeric(as.character(ogha$lat))
+ogha$lon <- as.numeric(as.character(ogha$lon))
+
+# create spatialpointsdataframe
+coordinates(ogham) <- ~lon+lat
+
+
+
+# load shape
+library(rgdal)
+
+bg <- readOGR(dsn = "../data/raw_data/",layer = "ne_10m_admin_0_countries")
+
+gb_ie <- subset(bg, bg@data$ADMIN == 'United Kingdom' | bg@data$ADMIN == 'Ireland')
+
+ie <- subset(bg, bg@data$ADMIN == 'Ireland')
+
+
+plot(gb)
+```
+
+
+```{r simple plot}
+
+library(ggplot2)
+
+ggplot()+
+      stat_density_2d(data = ogha, aes(x = lon, y = lat, fill = ..level..), alpha = 0.5, h = ogha$count, geom = "polygon")+
+    scale_fill_distiller(palette="Spectral", direction=-1) +
+    geom_polygon(data = gb_ie, aes(x = long, y = lat, group = group), fill = "white", alpha = 0.1, colour = "lightgrey", size = 0.5) +
+  coord_equal() +
+ geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5) +
+  theme_classic()
+ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
+
+```
+
+
+
+
+<!-- The following line inserts a page break when the output is MS Word. For page breaks in PDF, use \newpage on its own line.  -->
+##### pagebreak
+
+# References 
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+<div id="refs"></div>
+
+##### pagebreak
+
+### Colophon
+
+This report was generated on `r Sys.time()` using the following computational environment and dependencies: 
+
+```{r colophon, cache = FALSE}
+# which R packages and versions?
+devtools::session_info()
+```
+
+The current Git commit details are:
+
+```{r}
+# what commit is this file at? 
+git2r::repository(here::here())
+```

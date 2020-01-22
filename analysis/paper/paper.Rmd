@@ -65,7 +65,7 @@ ogha <- as.data.frame(coordinates(data)) # This converts the SpatialPoints objec
 # load shape
 library(rgdal)
 
-bg <- readOGR(dsn = "../data/raw_data/",layer = "ne_10m_admin_0_countries")
+bg <- readOGR(dsn = "../data/raw_data",layer = "ne_10m_admin_0_countries")
 
 gb_ie <- subset(bg, bg@data$ADMIN == 'United Kingdom' | bg@data$ADMIN == 'Ireland')
 
@@ -73,6 +73,7 @@ ie <- subset(bg, bg@data$ADMIN == 'Ireland')
 
 ```
 
+## density Karte
 
 ```{r density plot}
 
@@ -89,9 +90,96 @@ ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi =
 
 ```
 
+## wie häufig welches Wort
+
+
+```{r load word data}
+
+ciic_words <- read.csv2("../data/raw_data/ciictowords2.csv", sep = "|")
+ciic_words <- ciic_words[,-c(2:5)]
+ciic_words[is.na(ciic_words)] <- 0
+
+
+words_ciic <- t(as.matrix(ciic_words)) # transpose = switch columns and rows
+words_ciic <- as.data.frame(words_ciic)
+
+for (i in 1:323) {
+  words_ciic[,i] <- as.numeric(as.character(words_ciic[,i]))
+}
+
+colnames(words_ciic) <- ciic_words$ciic
+words_ciic <- words_ciic[-1,]
+
+words_ciic$sum <- rowSums(words_ciic)
+  
+words_many <- subset(words_ciic, words_ciic$sum > 3) # subset to words that occur more than three times
+
+many_words <- as.data.frame(t(words_many))
+
+```
+
+
+
+## Korrelation von verschiedenen Wörtern miteinander
+
+Kategorisierung der Daten notwendig, da die sehr hohen Werte (168) die eigentliche Differenzierung am Anfang überblenden.
+
+```{r corr}
+
+many_words$ciic <- rownames(many_words)
+
+many_words <- many_words[-324,]
+
+many_words[many_words == 0] <- NA
+
+
+library(reshape2)
+melted <- melt(many_words, ID = ciic, na.rm = T)
+
+
+V <- crossprod(table(melted[1:2]))
+
+heat1 <- melt(as.matrix(V), varnames = c("row", "col"))
+
+library(classInt)
+res <- plotJenks(heat1$value, n = 12) # to get an idea how to classify (many other possibilities)
+
+#categorize data
+heat1$category <- cut(heat1$value, 
+                   breaks=c(-Inf,0, 1, 3, 5, 7, 10, 15, 21, 27, 33, 123, 168, Inf), 
+                   labels=c("0", "1", "2-3", "4-5", "6-7", "8-10", "11-15", "16-21", "27", "33", "123", "168", 200))
+
+#install.packages("viridis")  # Installiert, da geeignet für Farbenblinde
+library("viridis")   
+col <- viridis(12)
+
+library(ggplot2)
+
+ggplot(heat1, aes(row, col))+
+  geom_tile(aes(fill = category), colour = "grey80")+
+  scale_fill_manual(name = "Frequency of co-occurence", 
+                    values = col,
+                    breaks = c("0", "1", "2-3", "4-5", "6-7", "8-10", "11-15", "16-21", "27", "33", "123", "168", 200)) +
+  theme(axis.text.x  = element_text(angle=45, vjust=0.5))+
+  xlab("")+
+  ylab("")+
+  labs(caption = "Words occuring more than three times in the data set")
+  
+ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi = 300)
+
+
+```
+
+
+
 ```{r percolation}
 
-library("percopackage", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.6")
+# for linux
+#library("percopackage", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.6")
+
+# on windows
+install.packages("percopackage", lib.loc="E:/Gegenleserei/R")
+library("percopackage", lib="E:/Gegenleserei/R")
 
 ogg <- cbind(ogham$ciic, ogha)
 

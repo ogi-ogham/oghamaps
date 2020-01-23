@@ -50,14 +50,15 @@ ogha$lat <- as.numeric(as.character(ogha$lat))
 ogha$lon <- as.numeric(as.character(ogha$lon))
 
 
-# create spatialpointsdataframe
+##create spatialpointsdataframe
 library(sp)
 
 # transformation into Easting and Northing for percolation
 coordinates(ogha) <- ~lon+lat
 proj4string(ogha) <- CRS("+proj=longlat + ellps=WGS84") # This sets the projection of the data, assuming that you are using the WGS84 ellipsoid (if you do not know for sure, it is a safe assumption)
 
-data <-spTransform(ogha,CRS="+proj=utm +zone=29 +datum=WGS84") # Use whatever UTM zone you need.
+data <-spTransform(ogha,CRS="+proj=utm +zone=29 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") # Use whatever UTM zone you need.
+
 
 ogha <- as.data.frame(coordinates(data)) # This converts the SpatialPoints object back into a data frame
 
@@ -72,6 +73,49 @@ gb_ie <- subset(bg, bg@data$ADMIN == 'United Kingdom' | bg@data$ADMIN == 'Irelan
 ie <- subset(bg, bg@data$ADMIN == 'Ireland')
 
 ```
+
+
+
+
+
+```{r percolation}
+
+#devtools::install_github("scschmidt/percopackage")
+library("percopackage")
+
+ogg <- cbind(ogham$ciic, ogha)
+
+## the algorithm had problems with IDs with a "-"  -- therefore they needed to be renamed to just the first number
+ogg_renamed <- ogg
+
+library(tidyr)
+# separating the IDs into two columns
+ogg_renamed <- separate(data = ogg_renamed, col = PlcIndex, into = c("left", "right"), sep = "-")
+
+#naming the columns
+colnames(ogg_renamed) <- c("PlcIndex", "weg", "Easting", "Northing")
+
+# deleting the not needed column
+ogg_renamed <- ogg_renamed[,-2]
+
+# there's a mistake there somewhere
+ogg_renamed$PlcIndex[ogg_renamed$PlcIndex == "'12"] <- "12"
+
+# percolation
+percolate(data = ogg_renamed, distance_table = NULL,limit = 100, radius_unit = 1000, upper_radius = 60, lower_radius = 1, step_value = 2)
+
+#transformation of map to same PRJ
+gb_ie <- spTransform(gb_ie,CRS="+proj=utm +zone=29 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") # Use whatever UTM zone you need.
+
+mapClusters(shape = gb_ie, map_name = "ogham stones in Ireland", source_file_name = "after MacAlister 1945", dpi = 300)
+
+
+plotClustFreq()
+
+
+```
+## troubleshoot
+
 
 ## density Karte
 
@@ -89,6 +133,7 @@ ggplot()+
 ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
 ```
+
 
 ## wie häufig welches Wort
 
@@ -171,31 +216,6 @@ ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi
 ```
 
 
-
-```{r percolation}
-
-# for linux
-#library("percopackage", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.6")
-
-# on windows
-install.packages("percopackage", lib.loc="E:/Gegenleserei/R")
-library("percopackage", lib="E:/Gegenleserei/R")
-
-ogg <- cbind(ogham$ciic, ogha)
-
-colnames(ogg) <- c("PlcIndex", "Easting", "Northing")
-
-percolate(data = ogg, distance_table = NULL,limit = 200, radius_unit = 1000, upper_radius = 50, lower_radius = 1, step_value = 10)
-
-#transformation of map to same PRJ
-gb_ie <- spTransform(gb_ie,CRS="+proj=utm +zone=29 +datum=WGS84") # Use whatever UTM zone you need.
-
-
-mapClusters(shape = gb_ie, map_name = "ogham stones in Ireland", source_file_name = "after MacAlister 1945", dpi = 100)
-
-
-plotClustFreq()
-```
 
 
 

@@ -73,6 +73,9 @@ gb_ie <- subset(bg, bg@data$ADMIN == 'United Kingdom' | bg@data$ADMIN == 'Irelan
 
 ie <- subset(bg, bg@data$ADMIN == 'Ireland')
 
+gb_ie <- spTransform(gb_ie,CRS="+proj=utm +zone=29 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") # Use whatever UTM zone you need.
+
+
 ```
 
 
@@ -123,20 +126,32 @@ plotClustFreq()
 ```{r density plot}
 
 library(ggplot2)
+library(ggspatial)
 
 ggplot()+
-      stat_density_2d(data = ogha, aes(x = lon, y = lat, fill = ..level..), alpha = 0.5, h = ogha$count, geom = "polygon")+
-    scale_fill_distiller(palette="Spectral", direction=-1) +
+    stat_density_2d(data = ogha, aes(x = lon, y = lat, fill = ..level..), alpha = 0.5, h = ogha$count, geom = "polygon")+
+    scale_fill_distiller(palette="Spectral", direction=-1,
+                         name = "Level of density") +
     geom_polygon(data = gb_ie, aes(x = long, y = lat, group = group), fill = "white", alpha = 0.1, colour = "lightgrey", size = 0.5) +
-  coord_equal() +
- geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5) +
-  theme_classic()
+    annotation_scale(location = "bl", width_hint = 0.2) +
+    annotation_north_arrow(location = "bl", which_north = "true", 
+                          pad_x = unit(0.1, "in"), pad_y = unit(0.2, "in"),
+                          style = north_arrow_fancy_orienteering) +
+    geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5) +
+    coord_equal(ylim=c(5500000,6250000), xlim = c(250000, 800000))+
+    theme_classic()+
+    theme(axis.text.x = element_text(angle = 30, hjust = 1))
+
+
+
 ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
 ```
 
 
-## wie häufig welches Wort
+
+
+# wie häufig welches Wort
 
 
 ```{r load word data}

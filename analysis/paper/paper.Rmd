@@ -233,9 +233,14 @@ Kategorisierung der Daten notwendig, da die sehr hohen Werte (123) die eigentlic
 
 # how often which word
 words_only$sum <- rowSums(words_only)
+
+###################################### words that occur how often?
   
 # too many words, therefore use only the once, that appear more than once:
-words_only_many <- subset(words_only, words_only$sum > 1) # subset to words that occur more than once
+words_only_many <- subset(words_only, words_only$sum > 3) # subset to words that occur more than once
+
+######################################
+
 
 # delete col with sum info
 words_only_many <- words_only_many[,-ncol(words_only_many)]
@@ -265,17 +270,17 @@ heat1 <- melt(as.matrix(V), varnames = c("row", "col"))
 
 # use Jenks natural breaks 
 library(classInt)
-res <- plotJenks(heat1$value, n = 10) # to get an idea how to classify (many other possibilities) 
+res <- plotJenks(heat1$value, n = 14) # to get an idea how to classify (many other possibilities) 
 
 # categorise data
 heat1$category <- cut(heat1$value, 
-                   breaks=c(-Inf,0, 1, 2, 3, 5, 8, 12, 21, 33, 123, Inf), 
-                   labels=c("0", "1", "2","3", "4-5", "6-8", "10-12", "18-21", "33", "123", 200))
+                   breaks=c(-Inf,0, 1, 2, 3, 4, 5, 7, 8, 10, 12, 19, 21, 33, 123, Inf), 
+                   labels=c("0", "1", "2","3", "4", "5", "7","8", "10","12", "19", "21", "33", "123", 200))
 
 
 #install.packages("viridis")  # Installiert, da geeignet für Farbenblinde
 library("viridis")   
-col <- viridis(10)
+col <- viridis(14)
 
 library(ggplot2)
 
@@ -283,11 +288,11 @@ ggplot(heat1, aes(row, col))+
   geom_tile(aes(fill = category), colour = "grey80")+
   scale_fill_manual(name = "Frequency of co-occurence", 
                     values = col,
-                    breaks = c("0", "1", "2","3", "4-5", "6-8", "10-12", "18-21", "33", "123")) +
+                    breaks = c("0", "1", "2","3", "4", "5", "7","8", "10","12", "19", "21", "33", "123")) +
   theme(axis.text.x  = element_text(angle=45, vjust=1, hjust = 1))+
   xlab("")+
   ylab("")+
-  labs(caption = "Words occuring more than once in the data set")
+  labs(caption = "Words occuring more than three times in the data set")
   
 ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 

@@ -1,8 +1,9 @@
 ---
-title: "Creating maps of ogham stones with R"
+title: "Playing around with ogham stones in R"
 author:
   - Schmidt, Sophie
   - Thiery, Florian
+  - Homburg, Timo
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
     bookdown::word_document2:
@@ -37,7 +38,7 @@ knitr::opts_chunk$set(
 It is the aim of this package to use the data of the Ogi-Ogham project to create some maps and geostatistics with R.
 
 
-```{r}
+```{r spatial data}
 # load data
 ogham <- read.csv2("../data/raw_data/2020-01-10_townlandsxy.csv", sep = "\t")
 
@@ -75,7 +76,7 @@ ie <- subset(bg, bg@data$ADMIN == 'Ireland')
 ```
 
 
-
+## Percolation is an explorative clustering algorithm
 
 
 ```{r percolation}
@@ -107,14 +108,14 @@ percolate(data = ogg_renamed, distance_table = NULL,limit = 100, radius_unit = 1
 #transformation of map to same PRJ
 gb_ie <- spTransform(gb_ie,CRS="+proj=utm +zone=29 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") # Use whatever UTM zone you need.
 
+# mapping of percolation
 mapClusters(shape = gb_ie, map_name = "ogham stones in Ireland", source_file_name = "after MacAlister 1945", dpi = 300)
 
-
+# create frequency plots
 plotClustFreq()
 
 
 ```
-## troubleshoot
 
 
 ## density Karte
@@ -148,23 +149,24 @@ ciic_words[is.na(ciic_words)] <- 0
 words_ciic <- t(as.matrix(ciic_words)) # transpose = switch columns and rows
 words_ciic <- as.data.frame(words_ciic)
 
+# ciic numbers into numbers again for column heads
+
 for (i in 1:323) {
   words_ciic[,i] <- as.numeric(as.character(words_ciic[,i]))
 }
 
+# column heads to be ciic
 colnames(words_ciic) <- ciic_words$ciic
+
+#delete ciic from table
 words_ciic <- words_ciic[-1,]
 
-words_ciic$sum <- rowSums(words_ciic)
-  
-words_many <- subset(words_ciic, words_ciic$sum > 3) # subset to words that occur more than three times
 
-many_words <- as.data.frame(t(words_many))
 
 ```
 
 ## Datensatz säubern
-Da sowohl Varianten von Wörtern als auch die "vollen" Wörter in der Tabelle aufgenommen wurden, muss der Datensatz bereinigt werden (ansonsten sehr hohe Korrelationen von "vollen" Wörtern und Varianten)
+Da sowohl Varianten von Wörtern als auch die "eigentlichen" Wörter in der Tabelle aufgenommen wurden, muss der Datensatz bereinigt werden (ansonsten sehr hohe Korrelationen von "eigentlichen" Wörtern und ihren Varianten)
 
 ```{r}
 # Liste von Varianten einlesen
@@ -173,27 +175,36 @@ words <- read.csv2("../data/raw_data/words.csv", sep = ",")
 
 library(tidyr)
 
-# remove []
+## make a columns for each variant
+
+# 1. remove []
 words$variants <- gsub("\\]", "", words$variants)
 words$variants <- gsub("\\[", "", words$variants)
 
+#2.  separate column
 word_variants <- separate(data = words, col = variants, into = c("var1", "var2", "var3", "var4", "var5", "var6", "var7", "var8", "var9", "var10" ), sep = "\\|")
+
 
 # mergen der Tabelle/löschen der nicht-relevanten Spalten
 
 variants <- word_variants[,6:15]
 variants <- gather(data = word_variants[,6:15], key = "nr", value = "variant" , na.rm = T)
 
-
+# die Varianten rausfiltern, die NICHT in der Wortliste sind, also die eigentlichen Worte raus
 list <- subset(variants, variants$variant != words$word)
 
+# varianten aus dem df schmeißen
+only_words <- ciic_words[,!(colnames(ciic_words) %in% tolower(list$variant))]  
 
-only_words <- ciic_words[,tolower(colnames(ciic_words)) %in% list]  
-  
-  
-words_many <- subset(words_ciic, words_ciic$sum > 3) # subset to words that occur more than three times
+# give rownames
+rownames(only_words) <- only_words$ciic
 
-many_words <- as.data.frame(t(words_many))
+#remove column ciic
+only_words <- only_words[,-1]
+
+# transpose
+words_only <- as.data.frame(t(only_words))
+
 
 ```
 
@@ -201,36 +212,55 @@ many_words <- as.data.frame(t(words_many))
 
 ## Korrelation von verschiedenen Wörtern miteinander
 
-Kategorisierung der Daten notwendig, da die sehr hohen Werte (168) die eigentliche Differenzierung am Anfang überblenden.
+Kategorisierung der Daten notwendig, da die sehr hohen Werte (123) die eigentliche Differenzierung am Anfang überblenden.
 
 ```{r corr}
 
-many_words$ciic <- rownames(many_words)
+# how often which word
+words_only$sum <- rowSums(words_only)
+  
+# too many words, therefore use only the once, that appear more than once:
+words_only_many <- subset(words_only, words_only$sum > 1) # subset to words that occur more than once
 
-many_words <- many_words[-324,]
+# delete col with sum info
+words_only_many <- words_only_many[,-ncol(words_only_many)]
 
-many_words[many_words == 0] <- NA
+#zeros to NAs as to remove na later on
+words_only_many[words_only_many == 0] <- NA
+
+#transpose 
+many_only_words <- as.data.frame(t(words_only_many))
+
+# we need the ciic column again as ID
+many_only_words$ciic <- rownames(many_only_words)
 
 
 library(reshape2)
-melted <- melt(many_words, ID = ciic, na.rm = T)
+# create a list of ciic to words
+melted <- melt(many_only_words, ID = ciic, na.rm = T)
 
-
+# crosstable to get the values for co-occurence
 V <- crossprod(table(melted[1:2]))
 
+# melt this crosstable to get a plottable dataframe
 heat1 <- melt(as.matrix(V), varnames = c("row", "col"))
 
-library(classInt)
-res <- plotJenks(heat1$value, n = 12) # to get an idea how to classify (many other possibilities)
 
-#categorize data
+##categorize data
+
+# use Jenks natural breaks 
+library(classInt)
+res <- plotJenks(heat1$value, n = 10) # to get an idea how to classify (many other possibilities) 
+
+# categorise data
 heat1$category <- cut(heat1$value, 
-                   breaks=c(-Inf,0, 1, 3, 5, 7, 10, 15, 21, 27, 33, 123, 168, Inf), 
-                   labels=c("0", "1", "2-3", "4-5", "6-7", "8-10", "11-15", "16-21", "27", "33", "123", "168", 200))
+                   breaks=c(-Inf,0, 1, 2, 3, 5, 8, 12, 21, 33, 123, Inf), 
+                   labels=c("0", "1", "2","3", "4-5", "6-8", "10-12", "18-21", "33", "123", 200))
+
 
 #install.packages("viridis")  # Installiert, da geeignet für Farbenblinde
 library("viridis")   
-col <- viridis(12)
+col <- viridis(10)
 
 library(ggplot2)
 
@@ -238,7 +268,7 @@ ggplot(heat1, aes(row, col))+
   geom_tile(aes(fill = category), colour = "grey80")+
   scale_fill_manual(name = "Frequency of co-occurence", 
                     values = col,
-                    breaks = c("0", "1", "2-3", "4-5", "6-7", "8-10", "11-15", "16-21", "27", "33", "123", "168", 200)) +
+                    breaks = c("0", "1", "2","3", "4-5", "6-8", "10-12", "18-21", "33", "123")) +
   theme(axis.text.x  = element_text(angle=45, vjust=0.5))+
   xlab("")+
   ylab("")+

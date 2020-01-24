@@ -140,9 +140,9 @@ ggplot()+
     geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5) +
     coord_equal(ylim=c(5500000,6250000), xlim = c(250000, 800000))+
     theme_classic()+
-    theme(axis.text.x = element_text(angle = 30, hjust = 1))
-
-
+    theme(axis.text.x = element_text(angle = 30, hjust = 1))+
+    scale_x_continuous(labels = scales::comma)+
+    scale_y_continuous(labels = scales::comma)
 
 ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
@@ -284,10 +284,10 @@ ggplot(heat1, aes(row, col))+
   scale_fill_manual(name = "Frequency of co-occurence", 
                     values = col,
                     breaks = c("0", "1", "2","3", "4-5", "6-8", "10-12", "18-21", "33", "123")) +
-  theme(axis.text.x  = element_text(angle=45, vjust=0.5))+
+  theme(axis.text.x  = element_text(angle=45, vjust=1, hjust = 1))+
   xlab("")+
   ylab("")+
-  labs(caption = "Words occuring more than three times in the data set")
+  labs(caption = "Words occuring more than once in the data set")
   
 ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 

@@ -269,8 +269,8 @@ heat1 <- melt(as.matrix(V), varnames = c("row", "col"))
 ##categorize data
 
 # use Jenks natural breaks 
-library(classInt)
-res <- plotJenks(heat1$value, n = 14) # to get an idea how to classify (many other possibilities) 
+#library(classInt)
+#res <- plotJenks(heat1$value, n = 14) # to get an idea how to classify (many other possibilities) 
 
 # categorise data
 heat1$category <- cut(heat1$value, 
@@ -280,7 +280,7 @@ heat1$category <- cut(heat1$value,
 
 #install.packages("viridis")  # Installiert, da geeignet für Farbenblinde
 library("viridis")   
-col <- viridis(14)
+col <-c("black", viridis(13))
 
 library(ggplot2)
 

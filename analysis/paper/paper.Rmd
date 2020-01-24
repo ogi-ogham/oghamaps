@@ -280,15 +280,19 @@ heat1$category <- cut(heat1$value,
 
 #install.packages("viridis")  # Installiert, da geeignet für Farbenblinde
 library("viridis")   
-col <-c("black", viridis(13))
+#col <-c("black", viridis(13))
+col <-c(viridis(14))
+
 
 library(ggplot2)
 
 ggplot(heat1, aes(row, col))+
   geom_tile(aes(fill = category), colour = "grey80")+
+  geom_text(aes(label=category, colour = "white"), size = 2)+
   scale_fill_manual(name = "Frequency of co-occurence", 
                     values = col,
                     breaks = c("0", "1", "2","3", "4", "5", "7","8", "10","12", "19", "21", "33", "123")) +
+      scale_colour_manual(values="white", guide=FALSE)+
   theme(axis.text.x  = element_text(angle=45, vjust=1, hjust = 1))+
   xlab("")+
   ylab("")+

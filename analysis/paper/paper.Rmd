@@ -163,6 +163,40 @@ many_words <- as.data.frame(t(words_many))
 
 ```
 
+## Datensatz säubern
+Da sowohl Varianten von Wörtern als auch die "vollen" Wörter in der Tabelle aufgenommen wurden, muss der Datensatz bereinigt werden (ansonsten sehr hohe Korrelationen von "vollen" Wörtern und Varianten)
+
+```{r}
+# Liste von Varianten einlesen
+
+words <- read.csv2("../data/raw_data/words.csv", sep = ",")
+
+library(tidyr)
+
+# remove []
+words$variants <- gsub("\\]", "", words$variants)
+words$variants <- gsub("\\[", "", words$variants)
+
+word_variants <- separate(data = words, col = variants, into = c("var1", "var2", "var3", "var4", "var5", "var6", "var7", "var8", "var9", "var10" ), sep = "\\|")
+
+# mergen der Tabelle/löschen der nicht-relevanten Spalten
+
+variants <- word_variants[,6:15]
+variants <- gather(data = word_variants[,6:15], key = "nr", value = "variant" , na.rm = T)
+
+
+list <- subset(variants, variants$variant != words$word)
+
+
+only_words <- ciic_words[,tolower(colnames(ciic_words)) %in% list]  
+  
+  
+words_many <- subset(words_ciic, words_ciic$sum > 3) # subset to words that occur more than three times
+
+many_words <- as.data.frame(t(words_many))
+
+```
+
 
 
 ## Korrelation von verschiedenen Wörtern miteinander

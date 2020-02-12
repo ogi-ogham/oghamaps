@@ -1,0 +1,34 @@
+---
+title: "multivariate Cluster"
+author: "Sophie C. Schmidt"
+date: "12 2 2020"
+output: word_document
+---
+# Trial für Multivariate Analysen
+
+```{r}
+#install.packages("dbscan")
+
+library(dbscan)
+
+data("moons")
+
+plot(moons)
+
+cl <- hdbscan(moons, minPts = 5)
+
+plot(moons, col=cl$cluster+1, pch = 20)
+
+plot(cl$hc, main="HDBSCAN* Hierarchy")
+```
+```{r ogham}
+load("../data/derived_data/ogha.Rdata")
+
+plot(ogha)
+
+hdb_ogha <- hdbscan(ogha, minPts = 5)
+
+plot(ogha, col = hdb_ogha$cluster+1)
+
+```
+

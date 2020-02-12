@@ -1,0 +1,95 @@
+---
+title: "map databases"
+author: "Sophie C. Schmidt"
+date: "10 Februar 2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from CISP database needs to be mapped unto CIIC
+
+```{r load CISP data}
+reading <- read.csv2("../data/raw_data/reading.csv", sep = "|")
+
+read_mcalister1945 <- subset(reading, reading$BY_WHOM == "Macalister/1945") 
+
+```
+
+```{r load CIIC data}
+
+ciic_inscr  <- read.csv2("../data/raw_data/ciic_inscriptions.csv", sep = "\t")
+
+```
+
+## Levenshtein distance
+```{r}
+library(stringdist)
+distance  <- stringdistmatrix(read_mcalister1945$TEXT, ciic_inscr$P1684, method = "lv", useNames =  "names")
+
+
+#try1 <- pmatch(read_mcalister1945$TEXT, ciic_inscr$P1684, nomatch = NA_integer_, duplicates.ok = FALSE)
+
+#try2  <- adist(read_mcalister1945$TEXT, ciic_inscr$P1684)
+
+library(Rfast)
+dis  <- rowMins(distance, value = FALSE)
+
+try2_indx <- rowMins(try2, value = FALSE)
+
+cnames <- colnames(try2[,try2_indx])
+
+```
+
+
+## versuch aus sites möglichst viel herauszubekommen
+
+```{r}
+
+sites_cisp <- read.csv2("../data/raw_data/cisp_site.csv", sep = ";")
+colnames(sites_cisp) <- tolower(colnames(sites_cisp))
+
+townlands <- read.csv2("../data/raw_data/townland_abgetipptMacalister1945.csv", sep= "\t")
+
+sites_cispIR <- subset(sites_cisp, sites_cisp$country == "Ireland")
+
+
+```
+
+## normal inner join
+
+```{r}
+names(townlands)[names(townlands) == "label"] <- "name"
+
+total <- merge(sites_cispIR, townlands, by=c("name","county"), all.y = TRUE) 
+
+write.csv2(total, "../data/derived_data/townlands_merge_cisp.csv")
+
+
+
+```
+
+
+
+### Levenshtein distance
+```{r}
+library(stringdist)
+distownlands  <- stringdistmatrix(sites_cispIR$NAME, townlands$label, method = "lv", useNames =  "names")
+
+
+#try1 <- pmatch(read_mcalister1945$TEXT, ciic_inscr$P1684, nomatch = NA_integer_, duplicates.ok = FALSE)
+
+#try2  <- adist(read_mcalister1945$TEXT, ciic_inscr$P1684)
+
+library(Rfast)
+dis  <- rowMins(distownlands, value = FALSE)
+
+distownlands_indx <- rowMins(distownlands, value = FALSE)
+
+cnames <- colnames(distownlands[,distownlands_indx])
+
+```
+
+

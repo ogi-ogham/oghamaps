@@ -21,6 +21,9 @@ plot(moons, col=cl$cluster+1, pch = 20)
 
 plot(cl$hc, main="HDBSCAN* Hierarchy")
 ```
+
+## DBSCAN ist für räumliche Daten
+
 ```{r ogham}
 load("../data/derived_data/ogha.Rdata")
 
@@ -29,6 +32,30 @@ plot(ogha)
 hdb_ogha <- hdbscan(ogha, minPts = 5)
 
 plot(ogha, col = hdb_ogha$cluster+1)
+
+```
+
+```{r fclust}
+library(cluster)
+
+total_gower <- daisy(total, metric = "gower")
+
+
+library(fclust)
+
+
+```
+
+
+```{r}
+
+sample(1:20,40,replace=TRUE)-> sam; sam
+matrix(sam, 10,4, byrow=T)->mata; mata
+dimnames(mata)<-list(paste("Fall", sep="_",1:nrow(mata)), paste("Variable", sep="_", 1:ncol(mata)))
+
+dist(mata,method="minkowski")->dista
+hclust(dista, method="single")->clusloes
+plot(clusloes, xlab="Fälle", cex.lab= .8, ylab="Hierarchische Gruppierung der Fälle bei einer Minkowski-Distanz von", main="Clusteranalyse \n ein Beispiel in R", sub="Gruppierung mit Nächstem-Nachbarn-Algorithmus ('single linkage')", cex.sub=.7 )
 
 ```
 

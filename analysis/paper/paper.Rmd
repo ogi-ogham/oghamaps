@@ -245,17 +245,25 @@ words_only_many <- subset(words_only, words_only$sum > 3) # subset to words that
 # Visualisierung, wie häufig die einzelnen Worte vorkommen
 
 
+library("viridis")   
+#col <-c("black", viridis(13))
+col <-c(viridis(14))
+
 library(ggplot2)
 ggplot()+
   geom_col(data = words_only_many, 
            aes(x = reorder(rownames(words_only_many), sum),
-               y = sum))+
+               y = sum,
+               fill = as.factor(sum)))+
+    scale_fill_manual(guide=FALSE,
+                    values = col[5:14],
+                    breaks = c("4", "6", "7","8", "10","12", "18", "19", "33", "123")) +
   coord_flip()+
   xlab("Ogham words named more than three times")+
   ylab("count")+
   theme_bw()
 
-ggsave("ogham_words_count.png", dpi = 300)
+ggsave("../figures/ogham_words_count.png", dpi = 300)
 ```
 
 

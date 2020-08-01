@@ -232,7 +232,8 @@ Kategorisierung der Daten notwendig, da die sehr hohen Werte (123) die eigentlic
 ```{r corr}
 
 # how often which word
-words_only$sum <- rowSums(words_only)
+words_only$sum <- rowSums(words_only, na.rm = TRUE)
+
 
 ###################################### words that occur how often?
   
@@ -241,6 +242,24 @@ words_only_many <- subset(words_only, words_only$sum > 3) # subset to words that
 
 ######################################
 
+# Visualisierung, wie häufig die einzelnen Worte vorkommen
+
+
+library(ggplot2)
+ggplot()+
+  geom_col(data = words_only_many, 
+           aes(x = reorder(rownames(words_only_many), sum),
+               y = sum))+
+  coord_flip()+
+  xlab("Ogham words named more than three times")+
+  ylab("count")+
+  theme_bw()
+
+ggsave("ogham_words_count.png", dpi = 300)
+```
+
+
+```{r}
 
 # delete col with sum info
 words_only_many <- words_only_many[,-ncol(words_only_many)]
@@ -302,11 +321,6 @@ ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi
 
 
 ```
-
-
-
-
-
 
 <!-- The following line inserts a page break when the output is MS Word. For page breaks in PDF, use \newpage on its own line.  -->
 ##### pagebreak

@@ -1,0 +1,197 @@
+lang	label	description	alias	province	county	barony	ciic	
+en	Inchagioll			Connaught	Galway	Ross	1	
+en	Cloonmooris			Connaught	Leitrim	Mohill	2	
+en	Island			Connaught	Mayo	Costello	3	
+en	Kilmannin Townland	Kilmannin Townland, Co. Mayo	Cill Mhainín	Connaught	Mayo	Costello	4	
+en	Rusheens East			Connaught	Mayo	Costello	5	
+en	Tullaghaun			Connaught	Mayo	Costello	6	
+en	Corrower			Connaught	Mayo	Gallen	7	
+en	Dooghmakeon			Connaught	Mayo	Murrisk	8	
+en	Aghaleague			Connaught	Mayo	Tirawley	9	
+en	Breastagh			Connaught	Mayo	Tirawley	10	
+en	Drummin			Connaught	Roscommon	Castlereagh	11	
+en	Rathcroghan (arch. Stätte)	Q1009358		Connaught	Roscommon	Castlereagh	12,13	
+en	Kilcummey			Leinster	Carlow	Idrone East	14	
+en	Clonmore			Leinster	Carlow	Rathvilly	15	
+en	Rathglass			Leinster	Carlow	Rathvilly	16	
+en	Tuckamine			Leinster	Carlow	Rathvilly	17	
+en	Portmarnock			Leinster	Dublin	Coolock	18	
+en	Colbinstown / Killeen Cormac	Colbinstown Townland, Co. Kildare		Leinster	Kildare	Narragh and Reban East	19,20,21,22,23,24,25	
+en	Donaghmore			Leinster	Kildare	North Salt	26	
+en	Ballyspellan			Leinster	Kilkenny	Galmoy	27	
+en	Churchclara / Clarah			Leinster	Kilkenny	Gowran	28	
+en	Dunbell Big	Dunbell Big Townland, Co. Kilkenny		Leinster	Kilkenny	Gowran	29,3	
+en	Fiddaun Upper			Leinster	Kilkenny	Gowran	31	
+en	Gowran			Leinster	Kilkenny	Gowran	32	
+en	Graiguenamanagh			Leinster	Kilkenny	Gowran	33	
+en	Legan			Leinster	Kilkenny	Gowran	34	
+en	Tullaherin			Leinster	Kilkenny	Gowran	35	
+en	Lamoge	Lamoge Townland, Co. Kilkenny		Leinster	Kilkenny	Kells	36,37	
+en	Ballyboodan Townland	Ballyboodan Townland, Co. Kilkenny	Baile Mhuadáin	Leinster	Kilkenny	Knocktopher	38	
+en	Barnaveddoge			Leinster	Louth	Ardee	39	
+en	Painestown / Saneschalstown			Leinster	Meath	Duleek Lower	40	
+en	Castlekeeran			Leinster	Meath	Upper Kells	41	
+en	Balloughton			Leinster	Wexford	Bargy	42	
+en	Great Saltee Island			Leinster	Wexford	Bargy	43	
+en	Cotts			Leinster	Wexford	Forth	44	
+en	Killabeg			Leinster	Wexford	Scarawalsh	45	
+en	Houseland / Hook Point			Leinster	Wexford	Shelburne	46	
+en	Castletimon			Leinster	Wicklow	Arklow	47	
+en	Dondard			Leinster	Wicklow	Lower Talbotstown	48	
+en	Baltinglass			Leinster	Wicklow	Upper Talbotstown	49	
+en	Boleycarrigeen			Leinster	Wicklow	Upper Talbotstown	50	
+en	Knickeen			Leinster	Wicklow	Upper Talbotstown	51	
+en	Tullycommon			Munster	Clare	Inchiquin	52	
+en	Ennis			Munster	Clare	Islands	53	
+en	Killaloe			Munster	Clare	Islands	54	
+en	Coomleagh East / Coomlia			Munster	Cork	Bantry	55	
+en	Burnfort			Munster	Cork	Barretts	56	
+en	Greenhill Townland	Greenhill Townland, Co. Cork		Munster	Cork	Barretts	57,58	
+en	Ballynabortagh	Ballynabortagh Townland, Co. Cork		Munster	Cork	Barrymore	59,6	
+en	Bishop's Island			Munster	Cork	Barrymore	61	
+en	Dunbulloge			Munster	Cork	Barrymore	62	
+en	Glenawillin			Munster	Cork	Barrymore	63,64	
+en	Rathcobane			Munster	Cork	Barrymore	65	
+en	Faunkill and the Woods / Ballycrovane			Munster	Cork	Bear	66	
+en	Gour			Munster	Cork	Bear	67	
+en	Kilcaskan			Munster	Cork	Bear	68	
+en	Ahalisky			Munster	Cork	East Carbery	69,70,71	
+en	Aultagh			Munster	Cork	East Carbery	72	
+en	Corhoovauler			Munster	Cork	East Carbery	73,74	
+en	Keenrath			Munster	Cork	East Carbery	75	
+en	Templebryan			Munster	Cork	East Carbery	76	
+en	Burgatia / Teampuleen Fachtna			Munster	Cork	West Carbery	77	
+en	Coolowen			Munster	Cork	Cork	78	
+en	Rathcanning			Munster	Cork	Imokilly	79,8	
+en	Garranes Townland	Garranes Townland, Co. Cork	An Garrán	Munster	Cork	Kinalmeaky	81	
+en	Ballyknock Townland	Ballyknock Townland, Co. Cork		Munster	Cork	Kinnatalloon 	82,83,84,85,86,87,88,89,90,91,92,93,94,95,96	
+en	Ballyhank			Munster	Cork	East Muskerry	97,98,99,100,101,102	
+en	Barrahaurin Townland	Barrahaurin Townland, Co. Cork		Munster	Cork	East Muskerry	103	
+en	Coolineagh			Munster	Cork	East Muskerry	104,105	
+en	Deelish			Munster	Cork	East Muskerry	106	
+en	Glenaglogh			Munster	Cork	East Muskerry	107	
+en	Kilcullen South			Munster	Cork	East Muskerry	108	
+en	Kilmartin Lower			Munster	Cork	East Muskerry	109	
+en	Knockrour			Munster	Cork	East Muskerry	110,111	
+en	Knockshanawee Townland	Knockshanawee Townland, Co. Cork	Cnoc Seanmhaí	Munster	Cork	East Muskerry	112,113,114,115,116,117	
+en	Monataggart			Munster	Cork	East Muskerry	118,119,120,121	
+en	Mount Rivers			Munster	Cork	East Muskerry	122,123	
+en	Rooves More			Munster	Cork	East Muskerry	124,125,126	
+en	Tullig More			Munster	Cork	East Muskerry	127	
+en	Carrigagulla			Munster	Cork	West Muskerry	128	
+en	Cooldorraagha			Munster	Cork	West Muskerry	129	
+en	Crinnaloo			Munster	Cork	West Muskerry	130	
+en	Glebe / Shanacloon			Munster	Cork	West Muskerry	131,132,133	
+en	Kealvaugh More			Munster	Cork	West Muskerry	134	
+en	Mount Music / Knockoran			Munster	Cork	West Muskerry	135	
+en	Ardfert			Munster	Kerry	Clanmaurice	136	
+en	Fortwilliam			Munster	Kerry	Clanmaurice	137	
+en	Aghacarrible			Munster	Kerry	Corkaguiney	137,139,140	
+en	Aglish			Munster	Kerry	Corkaguiney	141,142	
+en	Annagap			Munster	Kerry	Corkaguiney	143	
+en	Ardrinane			Munster	Kerry	Corkaguiney	144	
+en	Arraglen			Munster	Kerry	Corkaguiney	145	
+en	Ballineanig			Munster	Kerry	Corkaguiney	146	
+en	Ballineesteenig			Munster	Kerry	Corkaguiney	147	
+en	Ballinrannig Townland	Ballinrannig Townland, Co. Kerry	Baile an Reannaigh	Munster	Kerry	Corkaguiney	148,149,150,151,152,153,154	https://www.townlands.ie/kerry/corkaguiny/marhin/marhin/ballinrannig/
+en	Ballintaggart			Munster	Kerry	Corkaguiney	155,156,157,158,159,160,161,162,163	
+en	Ballintermon			Munster	Kerry	Corkaguiney	164,165	
+en	Ballinvoher			Munster	Kerry	Corkaguiney	166	
+en	Ballyandreen			Munster	Kerry	Corkaguiney	167,168	
+en	Ballyeightragh			Munster	Kerry	Corkaguiney	169	
+en	Ballymorereagh			Munster	Kerry	Corkaguiney	170	
+en	Ballynahunt			Munster	Kerry	Corkaguiney	171	
+en	Ballywiheen / Cahernagat			Munster	Kerry	Corkaguiney	172	
+en	Brackloon			Munster	Kerry	Corkaguiney	173	
+en	Brandon Mountain			Munster	Kerry	Corkaguiney	174	
+en	Burnham			Munster	Kerry	Corkaguiney	175	
+en	Camp			Munster	Kerry	Corkaguiney	176,177	
+en	Coumeennoole North / Dunmore Head			Munster	Kerry	Corkaguiney	178	
+en	Dingle			Munster	Kerry	Corkaguiney	179	
+en	Emlagh East / Trabeg			Munster	Kerry	Corkaguiney	180	
+en	Emlagh West			Munster	Kerry	Corkaguiney	181	
+en	Glanmore			Munster	Kerry	Corkaguiney	182	
+en	Glenfahan			Munster	Kerry	Corkaguiney	183	
+en	Gortnagullenagh			Munster	Kerry	Corkaguiney	184	
+en	Inishvickillane			Munster	Kerry	Corkaguiney	185	
+en	Kilfountain			Munster	Kerry	Corkaguiney	186	
+en	Kilmalkedar			Munster	Kerry	Corkaguiney	187	
+en	Kinard East			Munster	Kerry	Corkaguiney	188,189	
+en	Lugnagappul			Munster	Kerry	Corkaguiney	190,191	
+en	Martramane			Munster	Kerry	Corkaguiney	192	
+en	Manumanorig			Munster	Kerry	Corkaguiney	193	
+en	Rathduff			Munster	Kerry	Corkaguiney	194,194A	
+en	Rathmalode / Loughor			Munster	Kerry	Corkaguiney	195,196	
+en	Coolmagort Townland	Coolmagort Townland, Co. Kerry		Munster	Kerry	Dunkerron North	197,198,199,200,201,202,203	https://www.townlands.ie/kerry/dunkerron-north/knockane/dunloe/coolmagort/
+en	Curraghmore West			Munster	Kerry	Dunkerron North	204	
+en	Darrygarriv			Munster	Kerry	Dunkerron North	205	
+en	Kilcoolaght / Kilhullicaha			Munster	Kerry	Dunkerron North	206,207,208,209,210,211,212,213	
+en	Kilgobnet			Munster	Kerry	Dunkerron North	214	
+en	Whitefield			Munster	Kerry	Dunkerron North	215,216,217,218,218A	
+en	Derrygarrane South			Munster	Kerry	Dunkerron South	219	
+en	Derrynane			Munster	Kerry	Dunkerron South	220	
+en	Dromlusk			Munster	Kerry	Dunkerron South	221	
+en	Mangerton			Munster	Kerry	Dunkerron South	222	
+en	Parknasilla			Munster	Kerry	Dunkerron South	223	
+en	Dromatouk			Munster	Kerry	Glanarought	224	
+en	Gortmaccaree			Munster	Kerry	Glanarought	225	
+en	Inchinanagh			Munster	Kerry	Glanarought	226	
+en	Lomanagh			Munster	Kerry	Glanarought	227	
+en	Cockhill / Kilnaughtin			Munster	Kerry	Iraghticonor	228	
+en	Canburrin			Munster	Kerry	Iveragh	229	
+en	Cloghanecarhane			Munster	Kerry	Iveragh	230	
+en	Cool East / Killeenadreena			Munster	Kerry	Iveragh	231,232	
+en	Dromkeare			Munster	Kerry	Iveragh	233	
+en	Kilkeehagh			Munster	Kerry	Iveragh	234	
+en	Killogrone			Munster	Kerry	Iveragh	235	
+en	Killurly			Munster	Kerry	Iveragh	236,237	
+en	Letter			Munster	Kerry	Iveragh	238	
+en	Letter West			Munster	Kerry	Iveragh	239	
+en	Teeromoyle			Munster	Kerry	Iveragh	240	
+en	Kilbonane			Munster	Kerry	Magunihy	241	
+en	Parkavonear			Munster	Kerry	Magunihy	242,242A	
+en	Lockfield / Laharan			Munster	Kerry	Magunihy	243,244,245,246	
+en	Ardcanaght			Munster	Kerry	Trughanacmy	246A,246B	
+en	Ardywanig			Munster	Kerry	Trughanacmy	247	
+en	Bawnaglanna			Munster	Kerry	Trughanacmy	248	
+en	Brackhill / Brakel			Munster	Kerry	Trughanacmy	249	
+en	Corkaboy			Munster	Kerry	Trughanacmy	250	
+en	Crag			Munster	Kerry	Trughanacmy	251	
+en	Gurrane / Gortatlea			Munster	Kerry	Trughanacmy	252	
+en	Killorglin			Munster	Kerry	Trughanacmy	253	
+en	Killorglin, neighbourhood of			Munster	Kerry	Trughanacmy	254	
+en	Tinnahally			Munster	Kerry	Trughanacmy	255,256	
+en	Tralee			Munster	Kerry	Trughanacmy	256A	
+en	Ballyelan			Munster	Limerick	Conello Upper	257	
+en	Ballingarry			Munster	Limerick	Coshlea	258	
+en	Mount Russell			Munster	Limerick	Coshlea	259	
+en	Newcastle			Munster	Tipperary	Iffa and Offa West	260	
+en	Priesttown			Munster	Tipperary	Iffa and Offa West	261	
+en	Seemochuda			Munster	Waterford	Coshmore and Coshbridge	262	
+en	Ardmore			Munster	Waterford	Decies within Drum	263,264,265	
+en	Dronmore / Kiltera			Munster	Waterford	Decies within Drum	266,267,268	
+en	Grange			Munster	Waterford	Decies within Drum	269	
+en	Ballyvooney			Munster	Waterford	Decies without Drum	270,271	
+en	Drumlohan			Munster	Waterford	Decies without Drum	272,273,274,275,276,277,278,279,280,281	
+en	Fox's Castle			Munster	Waterford	Decies without Drum	282	
+en	Garranmillon			Munster	Waterford	Decies without Drum	283,284	
+en	Kilbeg			Munster	Waterford	Decies without Drum	285	
+en	Kilgrovan			Munster	Waterford	Decies without Drum	286,287,288,289,290	
+en	Kilmolash			Munster	Waterford	Decies without Drum	291	
+en	Knockboy / Seskinan			Munster	Waterford	Decies without Drum	292,293,294,295,296,297,298,299	
+en	Old Island			Munster	Waterford	Decies without Drum	300	
+en	Tooracurragh			Munster	Waterford	Glenahiry	301	
+en	Ballyvellon			Munster	Waterford	Middle Third	302	
+en	Ballyquin			Munster	Waterford	Middle Third	303	
+en	Crehanagh South			Munster	Waterford	Middle Third	304	
+en	Curraghnagaraha			Munster	Waterford	Middle Third	305	
+en	Knockalafalla			Munster	Waterford	Middle Third	306	
+en	Windgap			Munster	Waterford	Middle Third	307,308	
+en	Carncome			Ulster	Antrim	Lower Antrim	309,31	
+en	Drumconwell			Ulster	Armagh	Lower Fews	311	
+en	Rantavan			Ulster	Cavan	Castlerahn	312	
+en	Dungummin			Ulster	Cavan	Clanmahon	313	
+en	Station Island, Loch Derg			Ulster	Donegal	Tirhugh	314	
+en	Topped Mountain			Ulster	Fermanagh	Tirkennedy	315	
+en	Dunalis			Ulster	Londonderry	Coleraine	316	
+en	Aghascrebagh			Ulster	Tyrone	Upper Strabane	3	

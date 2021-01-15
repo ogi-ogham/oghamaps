@@ -44,6 +44,52 @@ cnames <- colnames(try2[,try2_indx])
 ```
 
 
+## versuch aus sites möglichst viel herauszubekommen
 
+```{r}
+
+sites_cisp <- read.csv2("../data/raw_data/cisp_site.csv", sep = ";")
+colnames(sites_cisp) <- tolower(colnames(sites_cisp))
+
+townlands <- read.csv2("../data/raw_data/townland_abgetipptMacalister1945.csv", sep= "\t")
+
+sites_cispIR <- subset(sites_cisp, sites_cisp$country == "Ireland")
+
+
+```
+
+## normal inner join
+
+```{r}
+names(townlands)[names(townlands) == "label"] <- "name"
+
+total <- merge(sites_cispIR, townlands, by=c("name","county"), all.y = TRUE) 
+
+write.csv2(total, "../data/derived_data/townlands_merge_cisp.csv")
+
+
+
+```
+
+
+
+### Levenshtein distance
+```{r}
+library(stringdist)
+distownlands  <- stringdistmatrix(sites_cispIR$NAME, townlands$label, method = "lv", useNames =  "names")
+
+
+#try1 <- pmatch(read_mcalister1945$TEXT, ciic_inscr$P1684, nomatch = NA_integer_, duplicates.ok = FALSE)
+
+#try2  <- adist(read_mcalister1945$TEXT, ciic_inscr$P1684)
+
+library(Rfast)
+dis  <- rowMins(distownlands, value = FALSE)
+
+distownlands_indx <- rowMins(distownlands, value = FALSE)
+
+cnames <- colnames(distownlands[,distownlands_indx])
+
+```
 
 

@@ -63,6 +63,7 @@ data <-spTransform(ogha,CRS="+proj=utm +zone=29 +ellps=GRS80 +towgs84=0,0,0,0,0,
 
 ogha <- as.data.frame(coordinates(data)) # This converts the SpatialPoints object back into a data frame
 
+save(ogha, file = "../data/derived_data/ogha.Rdata")
 
 # load shape
 library(rgdal)

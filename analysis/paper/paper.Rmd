@@ -95,7 +95,7 @@ ogg_renamed <- ogg
 
 library(tidyr)
 # separating the IDs into two columns
-ogg_renamed <- separate(data = ogg_renamed, col = PlcIndex, into = c("left", "right"), sep = "-")
+ogg_renamed <- separate(data = ogg_renamed, col = "ogham$ciic", into = c("left", "right"), sep = "-")
 
 #naming the columns
 colnames(ogg_renamed) <- c("PlcIndex", "weg", "Easting", "Northing")
@@ -130,25 +130,48 @@ library(ggplot2)
 library(ggspatial)
 
 ggplot()+
-    stat_density_2d(data = ogha, aes(x = lon, y = lat, fill = ..level..), alpha = 0.5, h = ogha$count, geom = "polygon")+
+    stat_density_2d(data = ogha, aes(x = lon, y = lat, fill = ..level..), alpha = 0.75, h = ogha$count, geom = "polygon")+
     scale_fill_distiller(palette="Spectral", direction=-1,
                          name = "Level of density") +
-    geom_polygon(data = gb_ie, aes(x = long, y = lat, group = group), fill = "white", alpha = 0.1, colour = "lightgrey", size = 0.5) +
-    annotation_scale(location = "bl", width_hint = 0.2) +
-    annotation_north_arrow(location = "bl", which_north = "true", 
+    geom_polygon(data = gb_ie, aes(x = long, y = lat, group = group), 
+                 fill = "white", 
+                 alpha = 0.1, 
+                 colour = "lightgrey", size = 0.5) +
+    annotation_north_arrow(location = "tl", which_north = "true", 
                           pad_x = unit(0.1, "in"), pad_y = unit(0.2, "in"),
                           style = north_arrow_fancy_orienteering) +
-    geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5) +
-    coord_equal(ylim=c(5500000,6250000), xlim = c(250000, 800000))+
+    annotation_scale(location = "br", width_hint = 0.2) +
+    geom_point(data = ogha, aes(x = lon, y = lat), size = 0.5, alpha = 0.5) +
+    coord_equal(ylim=c(5700000,6120000), xlim = c(350000, 720000))+
     theme_classic()+
     theme(axis.text.x = element_text(angle = 30, hjust = 1))+
     scale_x_continuous(labels = scales::comma)+
     scale_y_continuous(labels = scales::comma)
 
+
 ggsave("../figures/densitymap.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
 ```
 
+
+## in welchem county wie viele steine
+```{r}
+townlands <- read.csv2("../data/raw_data/townland_abgetipptMacalister1945.csv", sep = "\t")
+
+library(stringr)
+townlands$countstones <- str_count(townlands$ciic, coll(","))+1
+
+library(tidyverse)
+townlands %>%
+  group_by(county)%>%
+  summarise(freq = sum(countstones))%>%
+  arrange(desc(freq))
+
+# group by
+# sum
+
+
+```
 
 
 
@@ -233,7 +256,8 @@ Kategorisierung der Daten notwendig, da die sehr hohen Werte (123) die eigentlic
 ```{r corr}
 
 # how often which word
-words_only$sum <- rowSums(words_only)
+words_only$sum <- rowSums(words_only, na.rm = TRUE)
+
 
 ###################################### words that occur how often?
   
@@ -242,6 +266,32 @@ words_only_many <- subset(words_only, words_only$sum > 3) # subset to words that
 
 ######################################
 
+# Visualisierung, wie häufig die einzelnen Worte vorkommen
+
+
+library("viridis")   
+#col <-c("black", viridis(13))
+col <-c(viridis(14))
+
+library(ggplot2)
+ggplot()+
+  geom_col(data = words_only_many, 
+           aes(x = reorder(rownames(words_only_many), sum),
+               y = sum,
+               fill = as.factor(sum)))+
+    scale_fill_manual(guide=FALSE,
+                    values = col[5:14],
+                    breaks = c("4", "6", "7","8", "10","12", "18", "19", "33", "123")) +
+  coord_flip()+
+  xlab("Ogham words named more than three times")+
+  ylab("count")+
+  theme_bw()
+
+ggsave("../figures/ogham_words_count.png", dpi = 300)
+```
+
+
+```{r}
 
 # delete col with sum info
 words_only_many <- words_only_many[,-ncol(words_only_many)]
@@ -303,11 +353,6 @@ ggsave("../figures/co-occurence.jpg", width = 20, height = 18, units = "cm", dpi
 
 
 ```
-
-
-
-
-
 
 <!-- The following line inserts a page break when the output is MS Word. For page breaks in PDF, use \newpage on its own line.  -->
 ##### pagebreak

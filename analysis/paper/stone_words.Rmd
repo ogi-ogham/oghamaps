@@ -176,7 +176,7 @@ for (i in d_words_20$label_word) {
     labs(x="",
          y="")
 
-ggsave(paste("../figures/density_words/dichte_",i,".jpg",sep=""), dpi = 200)
+ggsave(paste("../figures/density_words/dichte_",i,".jpg",sep=""), dpi = 300)
 }
   
 ```

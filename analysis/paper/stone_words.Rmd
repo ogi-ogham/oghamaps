@@ -90,7 +90,8 @@ ggplot()+
                     alpha = 0.75, 
                     geom = "polygon")+
     scale_fill_distiller(palette="Spectral", direction=-1,
-                         name = "Dichte der Oghamsteine") +
+                          name = "Density of Ogham stones") +
+                        # name = "Dichte der Oghamsteine") +
     geom_polygon(data = gb_ie, aes(x = long, y = lat, group = group), 
                  fill = "white", 
                  alpha = 0.1, 
@@ -106,8 +107,9 @@ ggplot()+
     scale_x_continuous(labels = scales::comma)+
     scale_y_continuous(labels = scales::comma)
 
+ggsave("../figures/densitymap_en.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
-ggsave("../figures/densitymap_de.jpg", width = 20, height = 18, units = "cm", dpi = 300)
+#ggsave("../figures/densitymap_de.jpg", width = 20, height = 18, units = "cm", dpi = 300)
 
 ```
 
